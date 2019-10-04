@@ -19,7 +19,7 @@ const val KEY_WAKTU="waktu"
 class NoteDatabaseHandler (val context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createNoteTable = "CREATE TABLE $TABLE_NAME ($KEY_ID INTEGER PRIMARY KEY,"+
-                "KEY_JUDUL TEXT, $KEY_DESKRIPSI TEXT, $KEY_WAKTU LONG)"
+                "$KEY_JUDUL TEXT, $KEY_DESKRIPSI TEXT, $KEY_WAKTU LONG)"
         db?.execSQL(createNoteTable)
     }
 

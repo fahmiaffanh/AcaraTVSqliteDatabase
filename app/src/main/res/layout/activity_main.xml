@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/gambar_tv"
         android:id="@+id/masuk_btn"
+        android:onClick="keinput"
         android:text="masuk"
         android:textColor="#FFFFFF"
         android:background="#F44336"

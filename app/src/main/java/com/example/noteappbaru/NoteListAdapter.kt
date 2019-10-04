@@ -1,10 +1,14 @@
 package com.example.noteappbaru
 
+import android.app.AlertDialog
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_input_data.view.*
 import kotlinx.android.synthetic.main.tv_item.view.*
 
 class NoteListAdapter(val context: Context, val list: ArrayList<Note>): RecyclerView.Adapter<NoteListAdapter.ViewHolder>() {
@@ -27,6 +31,33 @@ class NoteListAdapter(val context: Context, val list: ArrayList<Note>): Recycler
             when (v!!.id){
                 itemView.delete_btn.id -> {
                     deleteNote(note.id!!)
+                }
+            }
+        }
+        fun deleteNote (id: Int){
+            val db = NoteDatabaseHandler(context)
+            db.deleteNote(id)
+        }
+        fun editNote (note: Note){
+            val db = NoteDatabaseHandler(context)
+            val view = LayoutInflater.from(context).inflate(R.layout.activity_input_data, null)
+            val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context).setView(view)
+            val dialog: AlertDialog = dialogBuilder!!.create()
+            dialog?.show()
+            view.tampilkan_data_btn.isEnabled = false
+            view.simpan_tv.setOnClickListener {
+                val judul = view.judul_list_tv.text.toString()
+                val deskripsi = view.deskripsi_tv.text.toString()
+
+                if(!TextUtils.isEmpty(judul) && !TextUtils.isEmpty(deskripsi)){
+                    note.judul = judul
+                    note.deskripsi = deskripsi
+
+                    Toast.makeText(context, "Tersimpan", Toast.LENGTH_SHORT).show()
+                    db.updateNote(note)
+                    notifyItemChanged(adapterPosition, note)
+
+                    dialog.dismiss()
                 }
             }
         }
